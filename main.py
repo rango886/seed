@@ -43,38 +43,40 @@ class MainWindow(QMainWindow):
                 self.make_menu(os.path.join(self.base_dir,j) ,self.menu)
 
         for i in  os.listdir(self.quick_dir):
-            Targetpath = self.shell.CreateShortCut(self.quick_dir+"/"+i).Targetpath
-            self.lnk2path[i] = Targetpath
-            # print(Targetpath)
-            icon = self.get_icon(Targetpath)
-            qa = QAction(icon,i[:-4],self.menu)
-            self.menu.addAction(qa)
+            if i != ".gitkeep":
+                Targetpath = self.shell.CreateShortCut(self.quick_dir+"/"+i).Targetpath
+                self.lnk2path[i] = Targetpath
+                # print(Targetpath)
+                icon = self.get_icon(Targetpath)
+                qa = QAction(icon,i[:-4],self.menu)
+                self.menu.addAction(qa)
 
         manager = KeyBoardManager(self)
         manager.F1Signal.connect(self.show_menu)
         manager.F2Signal.connect(self.hide_menu)
         manager.start()
 
-    def make_menu(self,file_path,parent):    
-        sub = parent.addMenu(os.path.basename(file_path))
-        files = os.listdir(file_path)
-        for fi in files:
-            fi_d = os.path.join(file_path,fi)            
-            if os.path.isdir(fi_d):
-                self.make_menu(fi_d,sub)
-            else:
-                try:
-                    if fi.split(".")[-1] == "lnk":
-                        # print(os.path.join(file_path,fi_d))
-                        Targetpath = self.shell.CreateShortCut(os.path.join(file_path,fi_d)).Targetpath
-                        self.lnk2path[fi] = Targetpath
-                        # print(Targetpath)
-                        icon = self.get_icon(Targetpath)
-                        qa = QAction(icon,fi[:-4],sub)
-                        sub.addAction(qa)
-                        # print(os.path.join(file_path,fi_d))
-                except Exception as e:
-                    print(e)
+    def make_menu(self,file_path,parent):  
+        if os.path.basename(file_path) != ".gitkeep":  
+            sub = parent.addMenu(os.path.basename(file_path))
+            files = os.listdir(file_path)
+            for fi in files:
+                fi_d = os.path.join(file_path,fi)            
+                if os.path.isdir(fi_d):
+                    self.make_menu(fi_d,sub)
+                else:
+                    try:
+                        if fi.split(".")[-1] == "lnk":
+                            # print(os.path.join(file_path,fi_d))
+                            Targetpath = self.shell.CreateShortCut(os.path.join(file_path,fi_d)).Targetpath
+                            self.lnk2path[fi] = Targetpath
+                            # print(Targetpath)
+                            icon = self.get_icon(Targetpath)
+                            qa = QAction(icon,fi[:-4],sub)
+                            sub.addAction(qa)
+                            # print(os.path.join(file_path,fi_d))
+                    except Exception as e:
+                        print(e)
 
     def get_icon(self,icon_path):
         try:
