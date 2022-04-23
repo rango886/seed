@@ -43,7 +43,7 @@ class MainWindow(QMainWindow):
                 self.make_menu(os.path.join(self.base_dir,j) ,self.menu)
 
         for i in  os.listdir(self.quick_dir):
-            if i != ".gitkeep":
+            if i != "readme.md":
                 Targetpath = self.shell.CreateShortCut(self.quick_dir+"/"+i).Targetpath
                 self.lnk2path[i] = Targetpath
                 # print(Targetpath)
@@ -57,7 +57,7 @@ class MainWindow(QMainWindow):
         manager.start()
 
     def make_menu(self,file_path,parent):  
-        if os.path.basename(file_path) != ".gitkeep":  
+        if os.path.basename(file_path) != "readme.md":  
             sub = parent.addMenu(os.path.basename(file_path))
             files = os.listdir(file_path)
             for fi in files:
