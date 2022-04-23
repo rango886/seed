@@ -1,3 +1,4 @@
+![image](./example.gif)
 ![image](./example.png)
 # 种子启动器
 通过种子启动器, 启动种子, 种子长成大树
