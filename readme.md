@@ -5,7 +5,7 @@
 - 安装依赖 pip install -r requirements.txt
 - 将快捷方式放入项目下lnk文件夹, lnk文件夹内也可以建立文件夹, 文件夹支持嵌套
 - 在lnk文件夹内, quick 文件夹内的快捷方式会在菜单的第一级显示
-- 快捷键控制 
+- 快捷键控制,快捷键是全局的，任意程序内按快捷键都可以弹出菜单窗口
     - alt+z 显示菜单
     - esc 键隐藏菜单
 - 开机启动 可以把launch.bat创建快捷方式后, 将快捷方式放到 C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup
@@ -19,7 +19,7 @@ pip install -r requirements.txt
 ```
 - Put the shortcut into the lnk folder under the project, you can also create a folder in the lnk folder, and the folder supports nesting
 - In the lnk folder, the shortcuts in the quick folder will be displayed on the first level of the menu
-- Keyboard shortcut
+- Keyboard shortcut, The shortcut keys are global. Press the shortcut keys in any program to pop up the menu window.
     - alt+z show menu
     - esc hide menu
 - startup you can create a shortcut for the launch.bat, put the shortcut into C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup
