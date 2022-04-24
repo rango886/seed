@@ -12,7 +12,6 @@ from PyQt5.QtCore import Qt, QObject, pyqtSignal,QPoint
 from PyQt5.QtGui import QCursor,QIcon
 from PyQt5.QtWidgets import QAction, QApplication, QMainWindow, QMenu
 
-
 def read_qss_file(qss_file_name):
     with open(qss_file_name, 'r',  encoding='UTF-8') as file:
         return file.read()
@@ -30,13 +29,20 @@ class KeyBoardManager(QObject):
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__(flags=Qt.WindowStaysOnTopHint)
-        self.base_dir = "C://Users//rango//Desktop//seed//lnk"
-        self.quick_dir = "C://Users//rango//Desktop//seed//lnk//quick"
+        self.base_dir = "./lnk/"
+        self.quick_dir = "./lnk/quick/"
         self.shell = win32com.client.Dispatch("WScript.Shell")
-        self.menu = QMenu("Menu")
-        style_file = './style.qss'
-        self.menu.setStyleSheet(read_qss_file(style_file))
+        self.menu = QMenu(self)
+
+        # self.menu.setWindowFlags(self.windowFlags() | Qt.FramelessWindowHint)
+        # self.menu.setAttribute(Qt.WA_TranslucentBackground, True)
+
+        self.style_sheet = read_qss_file('./style.qss')
+        self.menu.setStyleSheet(self.style_sheet)
         self.menu.triggered.connect(self.exec_lnk_v2)
+
+        
+
         self.lnk2path = {}
         for j in os.listdir(self.base_dir):
             if j != "quick":
@@ -58,28 +64,27 @@ class MainWindow(QMainWindow):
 
     def make_menu(self,file_path,parent):  
         if os.path.basename(file_path) != "readme.md":  
-            sub = parent.addMenu(os.path.basename(file_path))
+            sub = parent.addMenu(QIcon("folder.png"),os.path.basename(file_path))
+            # sub.setStyleSheet(self.style_sheet)
             files = os.listdir(file_path)
             for fi in files:
-                fi_d = os.path.join(file_path,fi)            
+                fi_d = file_path+"/"+fi 
                 if os.path.isdir(fi_d):
                     self.make_menu(fi_d,sub)
                 else:
                     try:
                         if fi.split(".")[-1] == "lnk":
-                            # print(os.path.join(file_path,fi_d))
-                            Targetpath = self.shell.CreateShortCut(os.path.join(file_path,fi_d)).Targetpath
+                            Targetpath = self.shell.CreateShortCut(file_path+"/"+fi ).Targetpath
                             self.lnk2path[fi] = Targetpath
-                            # print(Targetpath)
                             icon = self.get_icon(Targetpath)
                             qa = QAction(icon,fi[:-4],sub)
                             sub.addAction(qa)
-                            # print(os.path.join(file_path,fi_d))
                     except Exception as e:
                         print(e)
 
     def get_icon(self,icon_path):
         try:
+            # print(icon_path)
             icon_path = icon_path.replace("\\","/")
             large, small = win32gui.ExtractIconEx(icon_path, 0)
             
@@ -91,7 +96,7 @@ class MainWindow(QMainWindow):
             return qi
         except Exception as e:
             print(e)
-            return QIcon()
+            return QIcon("folder.png")
 
     @QtCore.pyqtSlot(QtWidgets.QAction)
     def exec_lnk_v2(self,action):
@@ -117,7 +122,7 @@ class MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    app.setQuitOnLastWindowClosed(False)
+    app.setQuitOnLastWindowClosed(False) 
     win = MainWindow()
     # win.show()
     sys.exit(app.exec_())
