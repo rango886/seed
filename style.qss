@@ -1,21 +1,21 @@
 QMenu {
-    border-radius:8px;
-    border:2px solid rgb(243, 243, 243);
-    background-color:rgba(250, 250, 250, 0.96);
-    color:rgb(26, 26, 26);
+    border:1.1px solid rgb(180, 180, 180);
+    background-color:rgba(238, 238, 238,1);
+    color:rgb(0, 0, 0);
+    
 }
 
 QMenu::item{
     padding-left:20px;
     padding-right:20px;
     min-height:25px;
+    min-width:150px
 }
 QMenu::item:selected {
-    background-color: rgb(0, 95, 184);
-    border-radius:4px;
+    background-color: rgb(255, 255, 255);
     padding-left:20px;
     padding-right:20px;
-    color:white;
+    color:rgb(0, 0, 0);
 }
 QMenu::icon {
     padding-left:20px;

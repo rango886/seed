@@ -12,6 +12,12 @@ from PyQt5.QtCore import Qt, QObject, pyqtSignal,QPoint
 from PyQt5.QtGui import QCursor,QIcon
 from PyQt5.QtWidgets import QAction, QApplication, QMainWindow, QMenu
 
+# from PySide6 import QtCore, QtWidgets, QtGui
+# from PySide6.QtWinExtras import QtWin
+# from PySide6.QtCore import Qt, QObject, Signal, QPoint
+# from PySide6.QtGui import QCursor, QIcon
+# from PySide6.QtWidgets import QAction, QApplication, QMainWindow, QMenu
+
 def read_qss_file(qss_file_name):
     with open(qss_file_name, 'r',  encoding='UTF-8') as file:
         return file.read()
@@ -113,7 +119,7 @@ class MainWindow(QMainWindow):
 
     def show_menu(self):
         
-        self.menu.popup(QPoint(QCursor.pos().x()-70,QCursor.pos().y()))
+        self.menu.popup(QPoint(QCursor.pos().x()-0,QCursor.pos().y()))
         # self.menu.popup(QPoint(0,0))
     
     def hide_menu(self):
